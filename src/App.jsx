@@ -1,34 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import ProductSearch from './components/ProductSearch'
+import ProductDetail from './components/ProductDetail'
+import CartView from './components/CartView'
+import CartIcon from './components/CartIcon'
+import { CartProvider } from './context/CartContext'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <CartProvider>
+      <Router>
+        <div className="app">
+          <header className="app-header">
+            <div className="nav-top">
+              <div className="nav-logo">
+                <img src="https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.19.5/mercadolibre/logo__large_plus.png" alt="Mercado Libre" />
+              </div>
+              <div className="nav-search">
+                <ProductSearch />
+              </div>
+              <div className="nav-promo">
+                <img src="https://http2.mlstatic.com/D_NQ_957153-MLA69318147677_052023-OO.webp" alt="Promoción" />
+              </div>
+              <CartIcon />
+            </div>
+          <nav className="nav-menu">
+            <ul>
+              <li>Categorías</li>
+              <li>Ofertas</li>
+              <li>Historial</li>
+              <li>Supermercado</li>
+              <li>Moda</li>
+              <li>Vender</li>
+              <li>Ayuda</li>
+            </ul>
+          </nav>
+        </header>
+        
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<ProductSearch />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<CartView />} />
+          </Routes>
+        </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </Router>
+    </CartProvider>
   )
 }
 
